@@ -1,132 +1,223 @@
-# Zocket_submission
-# Zocket-Task-Frontend-Code
+# Task Dashboard
 
-
-# *Zocket.ai - Task Management App*
-
-Zocket.ai is a modern, real-time task management platform designed to help teams and individuals organize their work efficiently. With features like real-time updates, AI-powered task suggestions, and a user-friendly interface, Zocket.ai ensures seamless collaboration and productivity.
+A Next.js-based task management dashboard with AI-powered task suggestions, user authentication, and real-time task updates using Socket.IO.
 
 ---
 
-## *Features*
+## Features
 
-- *Real-Time Task Updates*: Stay synced with your team using Socket.IO for instant updates.
-- *AI-Powered Suggestions*: Get smart task suggestions powered by Gemini AI.
-- *User Authentication*: Secure login and token-based authentication.
-- *Task Management*: Create, update, and complete tasks with ease.
-- *Modern UI*: Clean, responsive design with hover effects and animations.
-- *Responsive Design*: Works seamlessly on mobile, tablet, and desktop.
-
----
-
-## *Technologies Used*
-
-- *Frontend*: Next.js, Tailwind CSS
-- *Backend*: Node.js, Express.js
-- *Real-Time Communication*: Socket.IO
-- *AI Integration*: Gemini API
-- *Database*: (Mention your database, e.g., MongoDB, PostgreSQL)
-- *Authentication*: JWT (JSON Web Tokens)
+- **User Authentication**: Login and logout functionality with token-based authentication.
+- **Task Management**: Create, view, and update tasks with status (Pending, In Progress, Completed).
+- **AI-Powered Suggestions**: Get AI-generated task suggestions using Gemini or OpenAI.
+- **Real-Time Updates**: Real-time task updates using Socket.IO.
+- **Responsive Design**: A clean and responsive user interface.
 
 ---
 
-## *Setup Instructions*
+## Technologies Used
 
-### *Prerequisites*
-- Node.js (v16 or higher)
+- **Frontend**: Next.js, React, Tailwind CSS
+- **Backend**: Next.js API Routes
+- **AI Integration**: Gemini
+- **Real-Time Communication**: Socket.IO
+- **Authentication**: Token-based authentication
+- **State Management**: React `useState` and `useEffect`
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
 - npm or yarn
-- Gemini API key (for AI suggestions)
-- Socket.IO server (for real-time updates)
+- API key for Gemini or OpenAI (optional, for AI suggestions)
 
-### *Steps to Run the Project*
+### Installation
 
-1. *Clone the Repository*:
-   bash
-   git clone https://github.com/your-username/zocket-ai.git
-   cd zocket-ai
-   
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Kshitijasharma/Zocket_submission.git
+   cd my-next-app
+   ```
 
-2. *Install Dependencies*:
-   bash
+2. Install dependencies:
+   ```bash
    npm install
    # or
    yarn install
-   
+   ```
 
-3. *Set Up Environment Variables*:
-   Create a .env file in the root directory and add the following:
-   env
-   NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
-   NEXT_PUBLIC_SOCKET_SERVER_URL=your_socket_server_url
-   JWT_SECRET=your_jwt_secret
-   
+3. Create a `.env.local` file in the root directory and add the following environment variables:
+   ```env
+   GEMINI_API_KEY=your-gemini-api-key
+   # or
+   OPENAI_API_KEY=your-openai-api-key
+   ```
 
-4. *Run the Development Server*:
-   bash
+4. Start the development server:
+   ```bash
    npm run dev
    # or
    yarn dev
-   
+   ```
 
-5. *Open the App*:
-   Visit http://localhost:3000 in your browser.
-
----
-
-## *Usage*
-
-1. *Log In*:
-   - Use your credentials to log in. If you don’t have an account, sign up.
-
-2. *Create a Task*:
-   - Fill out the task form with a title, description, assignee, and deadline.
-
-3. *Get AI Suggestions*:
-   - Type a task description in the input field and click "Get AI Suggestion."
-
-4. *Update Task Status*:
-   - Mark tasks as "Pending," "In Progress," or "Completed."
-
-5. *Real-Time Collaboration*:
-   - All changes are synced in real-time across devices.
+5. Open your browser and navigate to `http://localhost:3000`.
 
 ---
 
-## *Folder Structure*
+## Project Structure
 
-
-zocket-ai/
-├── public/              # Static assets (images, icons)
+```
+task-dashboard/
+├── public/               # Static assets
 ├── src/
-│   ├── components/      # Reusable UI components
-│   ├── pages/           # Next.js pages
-│   ├── styles/          # Custom styles (if any)
-│   ├── utils/           # Utility functions
-│   └── api/             # API routes
-├── .env                 # Environment variables
-├── package.json         # Project dependencies
-└── README.md            # Project documentation
-
+│   ├── app/              # Next.js app router
+│   │   ├── api/          # API routes
+│   │   │   ├── auth/     # Authentication endpoints
+│   │   │   ├── gemini/   # Gemini AI endpoint
+│   │   │   ├── tasks/    # Task management endpoints
+│   │   ├── dashboard/    # Dashboard page
+│   │   ├── login/        # Login page
+│   │   └── utils/        # Utility functions
+│   ├── components/       # Reusable components
+│   └── styles/           # Global styles
+├── .env.local            # Environment variables
+├── package.json          # Project dependencies
+├── README.md             # Project documentation
+└── tsconfig.json         # TypeScript configuration
+```
 
 ---
 
-## *Contributing*
+## API Endpoints
 
-We welcome contributions! If you’d like to contribute, please follow these steps:
+### Authentication
+- **POST `/api/auth/login`**: Authenticate a user.
+  - Request Body:
+    ```json
+    {
+      "username": "admin",
+      "password": "password"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "token": "fake-token"
+    }
+    ```
+
+- **GET `/api/auth/me`**: Verify user token.
+  - Headers:
+    ```json
+    {
+      "Authorization": "Bearer <token>"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "user": { "username": "admin" }
+    }
+    ```
+
+### Task Management
+- **GET `/api/tasks`**: Fetch all tasks.
+  - Response:
+    ```json
+    [
+      {
+        "id": "1",
+        "title": "Task 1",
+        "description": "Description 1",
+        "assignedTo": "User 1",
+        "status": "Pending",
+        "deadline": "2023-12-31"
+      }
+    ]
+    ```
+
+- **POST `/api/tasks`**: Create a new task.
+  - Request Body:
+    ```json
+    {
+      "title": "New Task",
+      "description": "Task Description",
+      "assignedTo": "User 1",
+      "deadline": "2023-12-31"
+    }
+    ```
+
+- **PUT `/api/tasks`**: Update task status.
+  - Request Body:
+    ```json
+    {
+      "id": "1",
+      "status": "Completed"
+    }
+    ```
+
+### AI Integration
+- **POST `/api/gemini`**: Get AI suggestion.
+  - Request Body:
+    ```json
+    {
+      "prompt": "Plan a vacation"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "suggestion": "AI suggestion for: Plan a vacation"
+    }
+    ```
+
+---
+
+## Usage
+
+### Login
+1. Navigate to `http://localhost:3000/login`.
+2. Enter your username and password.
+3. Click "Login" to access the dashboard.
+
+### Dashboard
+1. **Create Task**:
+   - Fill in the task details (title, description, assigned to, deadline).
+   - Click "Add Task" to create a new task.
+
+2. **Get AI Suggestion**:
+   - Enter a task description in the input field.
+   - Click "Get AI Suggestion" to fetch an AI-generated suggestion.
+
+3. **Update Task Status**:
+   - Click the "Complete" button next to a task to mark it as completed.
+
+4. **Logout**:
+   - Click the "Logout" button in the header to log out.
+
+---
+
+## Contributing
 
 1. Fork the repository.
-2. Create a new branch (git checkout -b feature/YourFeatureName).
-3. Commit your changes (git commit -m 'Add some feature').
-4. Push to the branch (git push origin feature/YourFeatureName).
+2. Create a new branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Add your feature"
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
 5. Open a pull request.
 
-## *License*
+---
+
+## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-
-## *Acknowledgments*
-
-- *Socket.IO* for real-time communication.
-- *Gemini API* for AI-powered task suggestions.
-- *Tailwind CSS* for modern and responsive design.
